@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignIn</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento&display=swap" rel="stylesheet"> 
+    <link rel= "stylesheet" href="./Auth.css">
+   </head>
+<body>
+  <div class="container">
+    <div class="header">
+        <h2>Sign In</h2>
+    </div>
+    <form action="" class="form" id="form">
+
+        <div class="form-control">
+            <label for="email">Email Id</label>
+            <input type="text" id="emails" placeholder="Enter Email Id">
+            <i class="fa fa-check-circle"></i>
+            <i class="fa fa-exclamation-circle"></i>
+            <small>Error msg</small>
+        </div>
+        <div class="form-control">
+            <label for="password1">Password</label>
+            <input type="password" id="passwords" placeholder="Enter Password">
+            <i class="fa fa-check-circle"></i>
+            <i class="fa fa-exclamation-circle"></i>
+            <small>Error msg</small>
+        </div>
+
+        <button type="button" onclick="LoginUser()">SignIn</button>
+        <div class="text">
+          <a href="./register.html"><h4 style="color: black;">Sign Up</h4></a>
+       </div>
+    </form>
+</div>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBV_uoKNwuHmkLu_NeBSPVy3LVGMc7O36g",
+    authDomain: "jobseekingwebsite.firebaseapp.com",
+    projectId: "jobseekingwebsite",
+    storageBucket: "jobseekingwebsite.appspot.com",
+    messagingSenderId: "408662152012",
+    appId: "1:408662152012:web:2764258d88a9486d6c75e9",
+    measurementId: "G-M0TWR6NJ7X"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+
+        const form = document.getElementById('form');
+        const email = document.getElementById('emails');
+        const password1 = document.getElementById('passwords');
+        const small = document.querySelector('small');
+
+
+        function checkInput() {
+            
+            const emailValue = email.value.trim();
+            const password1Value = password1.value.trim();
+            
+            if (emailValue === '') {
+                showError(email, "Email Id can't be blank");
+            } else if (!isEmailValid(emailValue)) {
+                showError(email, "Email Id is in valid");
+            } else {
+                showSuccess(email);
+            }
+            if (password1Value === '') {
+                showError(password1, "Password can't be blank");
+            } else {
+                showSuccess(password1);
+            }
+
+        }
+
+        function showError(input, msg) {
+            const formControl = input.parentNode;
+            formControl.className = 'form-control error';
+            const small = formControl.querySelector('small');
+            small.innerHTML = msg;
+        }
+
+        function showSuccess(input) {
+            const formControl = input.parentNode;
+            formControl.className = 'form-control success';
+        }
+
+        function isEmailValid(email) {
+            return /^([a-zA-Z0-9_\.\-\+]+)@([a-zA-Z0-9]+)\.([a-zA-Z]{2,3})$/.test(email);
+        }
+  
+
+ function LoginUser(){
+   var email=document.getElementById('emails').value;
+   var password=document.getElementById('passwords').value;
+   firebase.auth().signInWithEmailAndPassword(email,password).then(function(){
+      
+    alert('LoginIn successfully');
+    document.location.href="/views/submit_form";
+    
+   }).catch(function(error){
+
+    var errorCode=error.code;
+    var errorMsg=error.message;
+    alert('LoginIn unsuccessfull');
+
+   });
+  }
+</script>
+</body>
+</html>
